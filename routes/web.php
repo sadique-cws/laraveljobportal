@@ -9,12 +9,17 @@ Route::get('/', function () {
 });
 
 
+Route::get("/search",[CompanyController::class,"show"])->name("search");
 
 Route::prefix("company")->group(function(){
     
     Route::get("/profile",[CompanyController::class,"index"])->name("company.profile")->middleware('auth');
     Route::post('profile',[CompanyController::class,"store"])->name("company.profile.insert")->middleware('auth');
+   
     Route::get('/jobs',[CompanyController::class,"jobView"])->name("company.jobs")->middleware('auth');
+    Route::get('/jobs/delete/{job}',[CompanyController::class,"destroy"])->name("company.jobs.delete")->middleware('auth');
+    Route::post('jobs',[CompanyController::class,"jobViewCreate"])->name("company.job.insert")->middleware('auth');
+
 });
 
 

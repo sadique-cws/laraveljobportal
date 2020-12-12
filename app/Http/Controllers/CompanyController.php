@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use Auth;
 use App\Models\Company;
+use App\Models\Role;
+use App\Models\Job;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -18,14 +20,44 @@ class CompanyController extends Controller
         return view('work.company_profile',$data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+   
+    public function jobView()
+    {   $data['company'] =  Company::where("user_id",Auth::id())->first();
+        $data['roles'] = Role::all();
+        return view("work.job_post",$data);
+        
+    }
+
+    public function jobViewCreate(Request $request){
+        
+        $company =  Company::where("user_id",Auth::id())->first();
+
+        $request->validate([
+            'title' => 'required',
+            'role_id' => 'required',
+            'job_type' => 'required',
+            'skills' => 'required',
+            'eligibility' => 'required',
+            'description' => 'required',
+            'experience' => 'required',
+            'salary' => 'required',
+           
+        ]);
+
+        $c = new Job();
+        $c->title = $request->title;
+        $c->role_id = $request->role_id;
+        $c->job_type = $request->job_type;
+        $c->skills = $request->skills;
+        $c->eligibility = $request->eligibility;
+        $c->description = $request->description;
+        $c->experience = $request->experience;
+        $c->salary = $request->salary;
+        $c->company_id = $company->id;
+        $c->save();
+
+
+        return redirect()->back();
     }
 
     /**
@@ -71,9 +103,12 @@ class CompanyController extends Controller
      * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function show(Company $company)
-    {
-        //
+    public function show(Request $request)
+    {   
+        $search = $request->search;
+        $data['jobs'] = Job::where('title','like',"%$search%")->get();
+        $data['roles'] = Role::all();
+        return view('work.search',$data);
     }
 
     /**
@@ -105,8 +140,9 @@ class CompanyController extends Controller
      * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Company $company)
+    public function destroy(Job $job)
     {
-        //
+        $job->delete();
+        return redirect()->back();
     }
 }

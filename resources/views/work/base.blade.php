@@ -47,8 +47,8 @@
                     <h1 class="display-4">Find your Job</h1>
                    <div class="row">
                        <div class="col-lg-6">
-                        <form action="" class="d-flex">
-                            <input type="search" placeholder="E.g Php developer, Python, Java, HR etc" class="form-control">
+                       <form action="{{route('search')}}" class="d-flex">
+                            <input type="search" name="search" placeholder="E.g Php developer, Python, Java, HR etc" class="form-control">
                             <input type="submit" class="btn btn-primary bg-gradient">
                         </form>
                        </div>

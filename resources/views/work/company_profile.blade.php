@@ -2,7 +2,7 @@
 
 
 @section('content')
-    <div class="container mt-5">
+    <div class="container-fluid mt-5">
         <div class="row">
             <div class="col-3">
                 <div class="list-group list-group-flush">
@@ -60,11 +60,9 @@
                                 <label for="">Industry Type</label>
                                 <select  name="industry_type" class="form-control">
                                     <option selected disabled value="">Select Industry Type</option>
-                                    <option>Part Time</option>
-                                    <option>Full Time</option>
-                                    <option>Work at Home</option>
-                                    <option>Night Shift</option>
-                                    <option>Freelancing</option>
+                                    <option>Software</option>
+                                    <option>HardWare</option>
+                                    <option>Textile</option>
                                 </select>
                                 @error('industry_type')
                                     <span class="text-danger small">{{$message}}</span>
